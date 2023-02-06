@@ -7,6 +7,7 @@ class TaskRepository {
         description,
         userId,
       });
+      return task;
     } catch (err) {
       console.log("Something went wrong on repository layer");
       throw err;
@@ -15,7 +16,7 @@ class TaskRepository {
 
   async getTask(taskId) {
     try {
-      const task = await Task.findOne(taskId);
+      const task = await Task.findByPk(taskId);
       return task;
     } catch (err) {
       console.log("Something went wrong on repository layer");

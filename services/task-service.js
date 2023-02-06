@@ -14,3 +14,5 @@ class TaskService {
     return task;
   }
 }
+
+module.exports = TaskService;
