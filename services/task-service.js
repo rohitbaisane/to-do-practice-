@@ -5,9 +5,9 @@ class TaskService {
     this.taskRepository = new TaskRepository();
   }
 
-  async getTask(taskId) {
+  async getTask(taskId, userId) {
     try {
-      const task = await this.taskRepository.getTask(taskId);
+      const task = await this.taskRepository.getTask(taskId, userId);
       return task;
     } catch (err) {
       console.log("Something went wrong on service layer");
@@ -15,9 +15,9 @@ class TaskService {
     }
   }
 
-  async getAllTasks() {
+  async getAllTasks(userId) {
     try {
-      const tasks = await this.taskRepository.getAllTasks();
+      const tasks = await this.taskRepository.getAllTasks(userId);
       return tasks;
     }
     catch (err) {
@@ -26,9 +26,9 @@ class TaskService {
     }
   }
 
-  async createTask(data) {
+  async createTask(data, userId) {
     try {
-      const task = await this.taskRepository.createTask(data);
+      const task = await this.taskRepository.createTask(data, userId);
       return task;
     } catch (err) {
       console.log("Something went wrong on service layer");
@@ -36,9 +36,9 @@ class TaskService {
     }
   }
 
-  async updateTask(taskId, data) {
+  async updateTask(taskId, data, userId) {
     try {
-      const updatedTask = await this.taskRepository.updateTask(taskId, data);
+      const updatedTask = await this.taskRepository.updateTask(taskId, data, userId);
       return updatedTask;
     } catch (err) {
       console.log("Something went wrong on service layer");
@@ -46,9 +46,9 @@ class TaskService {
     }
   }
 
-  async deleteTask(taskId) {
+  async deleteTask(taskId, userId) {
     try {
-      const response = await this.taskRepository.deleteTask(taskId);
+      const response = await this.taskRepository.deleteTask(taskId, userId);
       return response;
     } catch (err) {
       console.log("Something went wrong on service layer");

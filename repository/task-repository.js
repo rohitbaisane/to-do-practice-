@@ -7,7 +7,7 @@ class TaskRepository {
     }
     return task;
   }
-  async createTask({ description, userId }) {
+  async createTask({ description }, userId) {
     try {
       const task = await Task.create({
         description,
@@ -20,9 +20,16 @@ class TaskRepository {
     }
   }
 
-  async getTask(taskId) {
+  async getTask(taskId, userId) {
     try {
-      const task = await Task.findByPk(taskId);
+      const task = await Task.findOne({
+        where: {
+          id: taskId,
+          userId
+        }
+      });
+      if (!task)
+        throw { error: "No task found for corrosponding user" };
       return task;
     } catch (err) {
       console.log("Something went wrong on repository layer");
@@ -30,19 +37,36 @@ class TaskRepository {
     }
   }
 
-  async getAllTasks() {
+  async getAllTasks(userId) {
     try {
-      const tasks = await Task.findAll();
+      const tasks = await Task.findAll({
+        where: {
+          userId
+        }
+      });
+
+      if (!tasks.length)
+        throw { error: "No tasks found for corrosponding user" };
+
       return tasks;
+
     }
     catch (err) {
       console.log("Something went wrong on repository layer");
       throw err;
     }
   }
-  async updateTask(taskId, data) {
+  async updateTask(taskId, data, userId) {
     try {
-      const task = await Task.findByPk(taskId);
+      const task = await Task.findOne({
+        where: {
+          id: taskId,
+          userId
+        }
+      });
+
+      if (!task)
+        throw { error: "No task found for corrosponding user" };
       const updatedTask = this.updateTaskFields(task, data);
       await updatedTask.save();
       return updatedTask;
@@ -52,11 +76,12 @@ class TaskRepository {
     }
   }
 
-  async deleteTask(taskId) {
+  async deleteTask(taskId, userId) {
     try {
       await Task.destroy({
         where: {
           id: taskId,
+          userId
         },
       });
       return true;
