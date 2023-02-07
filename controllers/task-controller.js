@@ -21,6 +21,26 @@ const getTask = async (req, res) => {
   }
 };
 
+const getAllTasks = async (req, res) => {
+  try {
+    const tasks = await taskService.getAllTasks();
+    return res.status(200).json({
+      success: true,
+      data: tasks,
+      message: "Successfully fetchd all tasks",
+      error: {}
+    });
+  }
+  catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      data: {},
+      message: "Internal server error",
+      error: err
+    })
+  }
+}
 const createTask = async (req, res) => {
   try {
     const task = await taskService.createTask(req.body);
@@ -86,4 +106,5 @@ module.exports = {
   createTask,
   updateTask,
   deleteTask,
+  getAllTasks
 };

@@ -30,6 +30,16 @@ class TaskRepository {
     }
   }
 
+  async getAllTasks() {
+    try {
+      const tasks = await Task.findAll();
+      return tasks;
+    }
+    catch (err) {
+      console.log("Something went wrong on repository layer");
+      throw err;
+    }
+  }
   async updateTask(taskId, data) {
     try {
       const task = await Task.findByPk(taskId);
