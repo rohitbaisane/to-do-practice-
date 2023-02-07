@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const { UserRepository } = require("../repository/index");
 
 class UserService {
@@ -17,6 +19,35 @@ class UserService {
         }
     }
 
+    createJwtToken(user) {
+        try {
+            console.log("running");
+            console.log(user);
+            const token = jwt.sign({ id: user.id }, "This is my secreate key");
+            console.log(token);
+            return token;
+        } catch (err) {
+            console.log("Something went wrong on token creation process");
+            throw err;
+        }
+    }
+    async signIn({ email, password }) {
+        try {
+            const user = await this.userRepository.getUserByEmail(email);
+            if (!user)
+                throw { error: "No user found for corrosponding email id" };
+
+            if (password != user.password)
+                throw { error: "Incorrect password" };
+
+            const token = this.createJwtToken(user);
+            return token;
+        }
+        catch (err) {
+            console.log("Something went wrong in signin process");
+            throw err;
+        }
+    }
     async createUser(data) {
         try {
             const user = await this.userRepository.createUser(data);

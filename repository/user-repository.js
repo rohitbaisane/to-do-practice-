@@ -30,6 +30,20 @@ class UserRepository {
     }
   }
 
+  async getUserByEmail(userEmail) {
+    try {
+      const user = await User.findOne({
+        where: {
+          email: userEmail
+        }
+      });
+      return user;
+    }
+    catch (err) {
+      console.log("Something went wrong on repository layer");
+      throw err;
+    }
+  }
   async createUser(data) {
     try {
       const userObject = this.createUserObject(data);
