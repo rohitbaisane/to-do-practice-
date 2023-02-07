@@ -29,7 +29,7 @@ const signIn = async (req, res) => {
             success: true,
             data: response,
             message: "Successfully signed in",
-            error: err
+            error: {}
         });
     }
     catch (err) {

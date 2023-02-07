@@ -21,10 +21,7 @@ class UserService {
 
     createJwtToken(user) {
         try {
-            console.log("running");
-            console.log(user);
-            const token = jwt.sign({ id: user.id }, "This is my secreate key");
-            console.log(token);
+            const token = jwt.sign({ id: user.id }, "This is my secreate key", { expiresIn: "3h" });
             return token;
         } catch (err) {
             console.log("Something went wrong on token creation process");
