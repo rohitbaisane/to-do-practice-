@@ -29,7 +29,7 @@ class TaskRepository {
         }
       });
       if (!task)
-        throw { error: "No task found for corrosponding user" };
+        throw { error: "No task found with given id for corrosponding user" };
       return task;
     } catch (err) {
       console.log("Something went wrong on repository layer");
@@ -45,9 +45,9 @@ class TaskRepository {
         }
       });
 
-      if (!tasks.length)
+      if (!tasks.length) {
         throw { error: "No tasks found for corrosponding user" };
-
+      }
       return tasks;
 
     }
@@ -65,8 +65,9 @@ class TaskRepository {
         }
       });
 
-      if (!task)
-        throw { error: "No task found for corrosponding user" };
+      if (!task) {
+        throw { error: "No task found with given id for corrosponding user" };
+      }
       const updatedTask = this.updateTaskFields(task, data);
       await updatedTask.save();
       return updatedTask;
@@ -78,12 +79,16 @@ class TaskRepository {
 
   async deleteTask(taskId, userId) {
     try {
-      await Task.destroy({
+      const response = await Task.destroy({
         where: {
           id: taskId,
           userId
         },
       });
+      console.log(response);
+      if (!response) {
+        throw { error: "No task found with given id for corrosponding user" };
+      }
       return true;
     } catch (err) {
       console.log("Something went wrong on repository layer");
