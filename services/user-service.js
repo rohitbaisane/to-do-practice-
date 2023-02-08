@@ -19,7 +19,7 @@ class UserService {
         }
     }
 
-    createJwtToken(user) {
+    #createJwtToken(user) {
         try {
             const token = jwt.sign({ id: user.id }, "This is my secreate key", { expiresIn: "3h" });
             return token;
@@ -37,7 +37,7 @@ class UserService {
             if (password != user.password)
                 throw { error: "Incorrect password" };
 
-            const token = this.createJwtToken(user);
+            const token = this.#createJwtToken(user);
             return token;
         }
         catch (err) {
