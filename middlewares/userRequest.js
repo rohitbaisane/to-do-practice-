@@ -3,6 +3,26 @@ const userService = new UserService();
 
 const jwt = require("jsonwebtoken");
 
+
+
+const validateAuth = async (req, res, next) => {
+
+    try {
+        if (!req.body.email || !req.body.password) {
+            throw { error: "Insufficient parameteres" };
+        }
+        next();
+    }
+    catch (err) {
+        return res.status(400).json({
+            success: false,
+            data: {},
+            message: "Can not register or signin",
+            error: err
+        })
+    }
+
+}
 const authenticateUser = async (req, res, next) => {
     try {
         const token = req.headers['x-access-token'];
@@ -33,4 +53,4 @@ const authenticateUser = async (req, res, next) => {
 }
 
 
-module.exports = authenticateUser;
+module.exports = { validateAuth, authenticateUser };

@@ -1,3 +1,4 @@
 module.exports = {
-    authenticateUser: require("./authenticateUser")
+    UserRequestMiddleware: require("./userRequest"),
+    validateTaskInsertion: require("./tasks"),
 }
