@@ -3,7 +3,7 @@ const userService = new UserService();
 
 const getUser = async (req, res) => {
     try {
-        const user = await userService.getUser(req.params.id);
+        const user = await userService.getUser(req.user.id);
         return res.status(200).json({
             success: true,
             data: user,
@@ -64,7 +64,7 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        const updatedUser = await userService.updateUser(req.params.id, req.body);
+        const updatedUser = await userService.updateUser(req.user.id, req.body);
         return res.status(201).json({
             success: true,
             data: updatedUser,
@@ -84,7 +84,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-        const response = await userService.deleteUser(req.params.id);
+        const response = await userService.deleteUser(req.user.id);
         return res.status(200).json({
             success: true,
             data: response,
